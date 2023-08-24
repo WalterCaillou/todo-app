@@ -2,25 +2,39 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <Mirror></Mirror>
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+            yingshaoxo is your father.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
     </div>
   );
+}
+
+interface Props { }
+interface State { };
+class Mirror extends React.Component<Props, State> {
+    video_reference: HTMLVideoElement | null = null
+    set_video_reference = (element: HTMLVideoElement) => {
+        this.video_reference = element
+    }
+async componentDidMount() {
+        if (this.video_reference) {
+            let video_stream: MediaStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: false })
+            this.video_reference.srcObject = video_stream
+        }
+    }
+render() {
+        return (
+            <video ref={this.set_video_reference} id="player" autoPlay>
+            </video>
+        )
+    }
 }
 
 export default App;
